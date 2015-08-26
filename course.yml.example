@@ -1,0 +1,7 @@
+---
+:rose_2015_fall: !ruby/struct:Struct::Course
+  title: Software Engineering (U) F15
+  institution: SUNY_Binghamton
+  id: CS445-1-F15
+  date: 2015_Fall
+  contact: sjoseph@hpu.edu
