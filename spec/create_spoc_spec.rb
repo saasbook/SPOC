@@ -25,14 +25,8 @@ describe 'Creating SPOC', :type => :feature do
     expect(page).to have_content 'tansaku'
   end
 
-  it 'should create course' do
-    click_link 'New Course'
-    expect(page).to have_content 'Create a New Course'
-    fill_in 'new-course-name', with: course.title
-    fill_in 'new-course-org', with: course.institution
-    fill_in 'new-course-number', with: course.id
-    fill_in 'new-course-run', with: course.date
-    click_button 'Create'
+  it 'creates course and adds instructor to admin' do
+    create_course
     # the course URL is redirected to, but we don't seem to be picking it up ...
     # perhaps it is ajax and taking too long to load
     # run over network in chrome next time and see if we can just format a pseudo-API request?
@@ -45,9 +39,20 @@ describe 'Creating SPOC', :type => :feature do
     # was sent to https://studio.edge.edx.org/course/ via POST
     # I can't see any redirect - of course the URL can be constructed from the data
     expect(page).not_to have_content "There is already a course defined with the same organization, course number, and course run. Please change either organization or course number to be unique."
+    add_instructor_to_admin 
   end
 
-  it 'should add instructor to admin' do
+  def create_course
+    click_link 'New Course'
+    expect(page).to have_content 'Create a New Course'
+    fill_in 'new-course-name', with: course.title
+    fill_in 'new-course-org', with: course.institution
+    fill_in 'new-course-number', with: course.id
+    fill_in 'new-course-run', with: course.date
+    click_button 'Create'
+  end
+
+  def add_instructor_to_admin
     visit course.team_url
     click_link 'Add a New Team Member'
 
@@ -57,17 +62,6 @@ describe 'Creating SPOC', :type => :feature do
   end
 
   xit 'should upload 169.1 course' do
-    visit 'https://studio.edge.edx.org/course/WesleyanU/COMP342/2014_Fall'
-    expect(page).to have_content 'Course Outline'
-    visit 'https://studio.edge.edx.org/import/WesleyanU/COMP342/2014_Fall'
-    expect(page).to have_content 'Select a .tar.gz File to Replace Your Course Content'
-    click_link 'Choose a File to Import'
-    byebug
-    attach_file('input.file-input','/Users/sam/Dropbox/Public/1T2014.rmjYLw.tar.gz')
-    expect(page).to have_content 'Replace my course with the one above'
-  end
-
-  it 'should upload 169.1 course' do
     visit 'https://studio.edge.edx.org/course/UPugetSound/CS240/2014_Fall'
     expect(page).to have_content 'Course Outline'
     visit 'https://studio.edge.edx.org/import/UPugetSound/CS240/2014_Fall'
@@ -88,9 +82,7 @@ Content-Type: application/x-gzip
 =end
   end
 
-
-
-  it 'should reset the course title and number' do
+  xit 'should reset the course title and number' do
     visit 'https://studio.edge.edx.org/settings/advanced/WesleyanU/COMP342/2014_Fall'
     fill_in 'Course Display Name', with: '"Software Engineering"'
     fill_in 'Course Number Display String', with: '"COMP342"'
