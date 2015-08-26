@@ -18,7 +18,7 @@ describe 'sending textbook', type: :feature do
   end
 
   it 'should send textbook' do
-    emails = %w{email}
+    emails = %w{j_evert@hotmail.com ptrinidad@ono.com afdez@us.es joaquim.demoura@udc.es amparonm@unex.es robertoupo@gmail.com ljubomir.lazic@metropolitan.ac.rs}
     emails.each {|e| send e}
   end
 
