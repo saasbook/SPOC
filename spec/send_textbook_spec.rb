@@ -13,12 +13,12 @@ describe 'sending textbook', type: :feature do
     # byebug
     fill_in :ap_email, with: ENV['AMAZON_USERNAME']
     fill_in :ap_password, with: ENV['AMAZON_PASSWORD']
-    click_button 'Sign in using our secure server'
+    click_button 'signInSubmit'
     expect(page).to have_content ', Armando'
   end
 
   it 'should send textbook' do
-    emails = %w{j_evert@hotmail.com ptrinidad@ono.com afdez@us.es joaquim.demoura@udc.es amparonm@unex.es robertoupo@gmail.com ljubomir.lazic@metropolitan.ac.rs}
+    emails = %w{}    
     emails.each {|e| send e}
   end
 
@@ -27,7 +27,10 @@ describe 'sending textbook', type: :feature do
     # visit 'http://www.amazon.com/Engineering-Software-Service-Approach-Computing-ebook/dp/B00CCEHNUM/ref=tmm_kin_swatch_0?_encoding=UTF8&sr=8-1&qid=1434480029'
     # click_button 'Kindle $9.99'
     # click_button 'Give as a Gift'
-    visit 'https://www.amazon.com/gp/digital/fiona/gift/B00CCEHNUM?ie=UTF8&cor.0=US&displayedGiftPrice=9.99&displayedGiftPriceCurrencyCode=USD&displayedPrice=9.99&displayedPriceCurrencyCode=USD'
+    # SPANISH 
+    visit 'https://www.amazon.com/gp/digital/fiona/gift/B00TVQ1ZXK?ie=UTF8&cor.0=US&displayedGiftPrice=9.99&displayedGiftPriceCurrencyCode=USD&displayedPrice=9.99&displayedPriceCurrencyCode=USD'
+    # ENGLISH 
+    # visit 'https://www.amazon.com/gp/digital/fiona/gift/B00CCEHNUM?ie=UTF8&cor.0=US&displayedGiftPrice=9.99&displayedGiftPriceCurrencyCode=USD&displayedPrice=9.99&displayedPriceCurrencyCode=USD'
     fill_in 'giftRecipient', with: email
     first(:button, 'Place your order').click
   end

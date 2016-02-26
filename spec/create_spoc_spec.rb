@@ -1,7 +1,7 @@
 require 'capybara/rspec'
 require 'course'
 require 'yaml'
-#require 'byebug'
+require 'byebug'
 
 Capybara.run_server = false
 Capybara.default_driver = :selenium
@@ -14,7 +14,8 @@ describe 'Creating SPOC', :type => :feature do
 
   let!(:course) do
     courses = YAML.load_file('course.yml')
-    courses[:rose_2015_fall]
+    # byebug
+    courses[:fabio_2016_1]
   end
 
   before do
@@ -22,7 +23,7 @@ describe 'Creating SPOC', :type => :feature do
     fill_in :email, with: ENV['EDGE_STUDIO_USERNAME']
     fill_in :password, with: ENV['EDGE_STUDIO_PASSWORD']
     click_button 'submit'
-    expect(page).to have_content 'tansaku'
+    # expect(page).to have_content 'tansaku'
   end
 
   it 'creates course and adds instructor to admin' do
@@ -40,6 +41,7 @@ describe 'Creating SPOC', :type => :feature do
     # I can't see any redirect - of course the URL can be constructed from the data
     expect(page).not_to have_content "There is already a course defined with the same organization, course number, and course run. Please change either organization or course number to be unique."
     add_instructor_to_admin 
+    puts course.url
   end
 
   def create_course
