@@ -3,6 +3,9 @@ require 'course'
 require 'yaml'
 require 'byebug'
 
+require 'dotenv'
+Dotenv.load
+
 Capybara.run_server = false
 Capybara.default_driver = :selenium
 
@@ -15,7 +18,7 @@ describe 'Creating SPOC', :type => :feature do
   let!(:course) do
     courses = YAML.load_file('course.yml')
     # byebug
-    courses[:fabio_2016_1]
+    courses[:fabio_2016_2]
   end
 
   before do
