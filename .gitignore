@@ -1,3 +1,6 @@
 .env
 lib/export.rb
 course.yml
+/**/.DS_Store
+.byebug_history
+requests.ssv
