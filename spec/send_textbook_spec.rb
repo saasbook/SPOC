@@ -34,16 +34,6 @@ describe 'sending textbook', type: :feature do
     first(:button, 'Place your order').click
   end
 
-# willhoft@gmail.com
-# tcowan@my321.net
-# klambert@wlu.edu
-# fabiodasilva@gmail.com
-# peckjd@gmail.com
-# rgutier@cse.tamu.edu
-# noczhou@gmail.com
-# richard.wasniowski@csuci.edu
-
-
   it 'should add to mailing list'
   # https://groups.google.com/forum/#!managemembers/esaas-instructors/add - captchas ...
   it 'should send welcome email'
