@@ -2,7 +2,6 @@ require 'csv'
 require 'byebug'
 require 'ostruct'
 
-
 THUNDERBIRD = '/Applications/Thunderbird.app/Contents/MacOS/thunderbird'
 
 MAKE_MOBI_PREFIX = 'make mobi WATERMARK="'
@@ -17,7 +16,7 @@ LANGUAGE_INDEX = 3
 
 def send_textbook_email
   preselectid = 'id2'
-  bcc = ''
+  bcc = 'fox@cs.berkeley.edu,patterson@cs.berkeley.edu'
   subject = 'Engineering Software as a Service Community Welcome!'
   attachment = '/Users/tansaku/Documents/Documents/AgileVentures/LocalSupport/WelcomeLetter.docx.pdf'
 
@@ -30,7 +29,7 @@ def send_textbook_email
     to = email
     template = language == 'Español' ? 'email_spanish.erb' : 'email.erb'
     file_path = File.join(File.dirname(__FILE__),template)
-    link = "https://dl.dropboxusercontent.com/u/13196858/saasbook_prof_#{lastname.downcase}.mobi"
+    link = "#{ENV['DROPBOX_LINK']}/saasbook_prof_#{lastname.downcase}.mobi"
     namespace = OpenStruct.new(lastname: lastname, link: link)
     body = ERB.new(File.read(file_path)).result(namespace.instance_eval { binding })
     options = %Q{"to='#{to}',preselectid='#{preselectid}',bcc='#{bcc}',subject='#{subject}',body='#{body}',attachment='#{attachment}'"}
