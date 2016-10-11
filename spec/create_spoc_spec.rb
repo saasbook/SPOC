@@ -18,7 +18,7 @@ describe 'Creating SPOC', :type => :feature do
   let!(:course) do
     courses = YAML.load_file('course.yml')
     # byebug
-    courses[:luciano_2016_fall]
+    courses[:fabio_email_2016_2]
   end
 
   before do
