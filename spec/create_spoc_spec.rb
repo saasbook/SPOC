@@ -2,23 +2,32 @@ require 'capybara/rspec'
 require 'course'
 require 'yaml'
 require 'byebug'
+require 'selenium-webdriver'
 
 require 'dotenv'
 Dotenv.load
 
-Capybara.run_server = false
-Capybara.default_driver = :selenium
+Capybara.register_driver :chrome do |app|
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.read_timeout = 120
 
-# Capybara.register_driver :selenium do |app|
-#   Capybara::Selenium::Driver.new(app, :browser => :chrome)
-# end
+  Capybara::Selenium::Driver.new(app, {browser: :chrome, http_client: client})
+end
+
+Capybara.register_driver :selenium_firefox do |app|
+  Capybara::Selenium::Driver.new(app, browser: :firefox, marionette: true)
+end
+
+Capybara.run_server = false
+Capybara.default_driver = :selenium_firefox
+Capybara.default_max_wait_time = 15
 
 describe 'Creating SPOC', :type => :feature do
 
   let!(:course) do
     courses = YAML.load_file('course.yml')
     # byebug
-    courses[:fabio_email_2016_2]
+    courses[:rose_2018_fall]
   end
 
   before do

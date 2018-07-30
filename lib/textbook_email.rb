@@ -1,18 +1,8 @@
-require 'csv'
 require 'byebug'
 require 'ostruct'
+require_relative 'textbook_config'
 
 THUNDERBIRD = '/Applications/Thunderbird.app/Contents/MacOS/thunderbird'
-
-MAKE_MOBI_PREFIX = 'make mobi WATERMARK="'
-MOBI_ESCAPE_CHARS = '\\\\\\\\\\\\\\\\'
-MAKE_MOBI_SUFFIX = '" ; mv saasbook.mobi ~/Dropbox/Public/saasbook_prof_'
-MOBI_FILE_EXTENSION = '.mobi'
-
-LASTNAME_INDEX = 0
-FIRSTNAME_INDEX = 1
-EMAIL_INDEX = 2
-LANGUAGE_INDEX = 3
 
 def send_textbook_email
   preselectid = 'id2'
@@ -37,17 +27,4 @@ def send_textbook_email
     puts command
     `#{command}`
   end
-end
-
-def generate_mobis
-  requestors = CSV.read("requests.ssv", { col_sep: "\s", skip_lines: ';' })
-  Dir.chdir('/Users/tansaku/Documents/GitHub/armandofox/saasbook') do
-    requestors.each do |requestor|
-      lastname = requestor[LASTNAME_INDEX]
-      firstname = requestor[FIRSTNAME_INDEX]
-      email = requestor[EMAIL_INDEX]
-      language = requestor[LANGUAGE_INDEX]
-      `#{MAKE_MOBI_PREFIX}#{firstname} #{lastname}#{MOBI_ESCAPE_CHARS}#{email}#{MAKE_MOBI_SUFFIX}#{lastname.downcase}#{MOBI_FILE_EXTENSION}`
-    end
-  end 
 end
