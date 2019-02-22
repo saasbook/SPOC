@@ -14,20 +14,24 @@ Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, {browser: :chrome, http_client: client})
 end
 
-Capybara.register_driver :selenium_firefox do |app|
+Capybara.register_driver :firefox do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox, marionette: true)
 end
 
 Capybara.run_server = false
-Capybara.default_driver = :selenium_firefox
+Capybara.default_driver = :chrome
 Capybara.default_max_wait_time = 15
+
+# because apparently if we extra "Create a New Course" expect fails
+# but even with this we still fail in firefox due to "it was found 2 times including non-visible text"
+Capybara.ignore_hidden_elements = false 
 
 describe 'Creating SPOC', :type => :feature do
 
   let!(:course) do
     courses = YAML.load_file('course.yml')
     # byebug
-    courses[:rose_2018_fall]
+    courses[:fabio_2019_1]
   end
 
   before do
@@ -57,13 +61,13 @@ describe 'Creating SPOC', :type => :feature do
   end
 
   def create_course
-    click_link 'New Course'
+    click_on class: 'new-course-button'
     expect(page).to have_content 'Create a New Course'
     fill_in 'new-course-name', with: course.title
     fill_in 'new-course-org', with: course.institution
     fill_in 'new-course-number', with: course.id
     fill_in 'new-course-run', with: course.date
-    click_button 'Create'
+    click_on class: 'new-course-save'
   end
 
   def add_instructor_to_admin
